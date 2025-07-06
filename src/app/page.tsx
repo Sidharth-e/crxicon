@@ -1,7 +1,8 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useRef, useState } from "react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import Image from "next/image";
 
 type IconSize = 16 | 32 | 48 | 128;
 const ICON_SIZES: IconSize[] = [16, 32, 48, 128];
@@ -22,7 +23,7 @@ export default function IconGeneratorPage() {
       setImageSrc(src);
       setFileName(file.name.replace(/\..*$/, ""));
       // Process images
-      const newIcons: Record<IconSize, string> = {} as any;
+     const newIcons = {} as Record<IconSize, string>;
       for (const size of ICON_SIZES) {
         newIcons[size] = await resizeImage(src, size, size);
       }
@@ -75,11 +76,11 @@ export default function IconGeneratorPage() {
         canvas.height = h;
         const ctx = canvas.getContext("2d")!;
         ctx.clearRect(0, 0, w, h);
-        let ratio = Math.max(w / img.width, h / img.height);
-        let nw = img.width * ratio;
-        let nh = img.height * ratio;
-        let nx = (w - nw) / 2;
-        let ny = (h - nh) / 2;
+        const ratio = Math.max(w / img.width, h / img.height);
+        const nw = img.width * ratio;
+        const nh = img.height * ratio;
+        const nx = (w - nw) / 2;
+        const ny = (h - nh) / 2;
         ctx.drawImage(img, nx, ny, nw, nh);
         resolve(canvas.toDataURL("image/png"));
       };
@@ -255,8 +256,8 @@ export default function IconGeneratorPage() {
                     "
                     style={{ animationDelay: 0.12 * idx + "s" }}
                   >
-                    <img
-                      src={icons[size]}
+                    <Image
+                      src={icons[size] as string}
                       width={size}
                       height={size}
                       className="rounded-md border border-[#dadcec] bg-white dark:bg-[#171c33] shadow-sm mb-2 group-hover:scale-110 group-hover:drop-shadow-lg 
